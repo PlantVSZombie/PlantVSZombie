@@ -1,1 +1,5 @@
 PIC_CAR_PATH="resources/pics/items/car.png"
+SunFlower_PATH="resources/pics/plants/SunFlower_0.png"
+PeaShooter_PATH="resources/pics/plants/Peashooter_0.png"
+BulletNormal_PATH="resources/pics/bullets/PeaNormal_0.png"
+BulletExplode_PATH="resources/pics/bullets/PeaNormalExplode_0.png"
