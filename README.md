@@ -13,3 +13,6 @@ Controller类
 游戏界面
 
 ## 教程
+ 碰撞检测实例 教程 https://blog.csdn.net/sinat_39013092/article/details/81869401
+ 面向对象编程 https://www.liaoxuefeng.com/wiki/1016959663602400/1017495723838528
+ 单元测试教程 https://www.liaoxuefeng.com/wiki/1016959663602400/1017604210683936

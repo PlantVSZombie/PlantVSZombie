@@ -1,0 +1,1 @@
+PIC_CAR_PATH="resources/pics/items/car.png"
