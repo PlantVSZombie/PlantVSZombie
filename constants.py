@@ -3,6 +3,16 @@ SunFlower_PATH="resources/pics/plants/SunFlower_0.png"
 PeaShooter_PATH="resources/pics/plants/Peashooter_0.png"
 BulletNormal_PATH="resources/pics/bullets/PeaNormal_0.png"
 BulletExplode_PATH="resources/pics/bullets/PeaNormalExplode_0.png"
+'''颜色'''
+WHITE        = (255, 255, 255)
+NAVYBLUE     = ( 60,  60, 100)
+SKY_BLUE     = ( 39, 145, 251)
+BLACK        = (  0,   0,   0)
+LIGHTYELLOW  = (234, 233, 171)
+RED          = (255,   0,   0)
+PURPLE       = (255,   0, 255)
+GOLD         = (255, 215,   0)
+GREEN        = (  0, 255,   0)
 
 PRODUCE_SUN_INTERVAL = 7000
 FLOWER_SUN_INTERVAL = 22000
@@ -17,7 +27,7 @@ ATTACK_INTERVAL = 1000
 ZOMBIE_WALK_INTERVAL = 70
 FREEZE_INTERVAL=100
 
-ZOMBIE_START_X = SCREEN_WIDTH + 50
+#ZOMBIE_START_X = SCREEN_WIDTH + 50
 
 #STATE
 ATTACK = 'attack'
