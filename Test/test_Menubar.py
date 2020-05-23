@@ -2,6 +2,7 @@ from unittest import TestCase
 import datetime
 import pygame
 from Model import Menubar
+from Model import Controller
 
 class TestCard(TestCase):
     def test_something(self):
@@ -10,14 +11,15 @@ class TestCard(TestCase):
         pygame.display.set_caption("测试卡片")
         map =pygame.image.load('../resources/pics/items/Background_0.jpg')
         screen.blit(map,(0,0))
-        menu=Menubar.Menubar(10,10,[0,1],100)
+        menu=Menubar.Menubar(10,10,[0,1],200)
         menu.draw(screen)
 
         while True:
             x, y = pygame.mouse.get_pos()
-            item=menu.checkCardChosen((x,y))
-            if item!=None:
-                item.setShowImage(menu.sun_value,pygame.time.get_ticks())
+            mouse_click, _, _ = pygame.mouse.get_pressed()
+            Controller.dealCardSelected((x,y),mouse_click,menu)#调用Controller类的管理函数
+            menu.update(menu.sun_value,pygame.time.get_ticks())
+            menu.draw(screen)
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
