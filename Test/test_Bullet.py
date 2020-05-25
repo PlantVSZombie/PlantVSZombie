@@ -12,3 +12,4 @@ class TestBullet(TestCase):
         self.fail()
 
     def test_something(self):
+        pass
