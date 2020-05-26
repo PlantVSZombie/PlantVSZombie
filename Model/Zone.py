@@ -19,8 +19,8 @@ class Zone:
         else:
             return False
 
-
-
+z=Zone()
+print(z.getIndex(400,300))
 
 
 
