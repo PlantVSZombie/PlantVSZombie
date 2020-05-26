@@ -17,7 +17,7 @@ class SunState(Enum):
 
 class Sun(MySprite):
 
-    def __init__(self, posx, posy, state=SunState.MOVING):
+    def __init__(self, posx, posy, speed=1):
         path = "../" + PIC_SUN_PATH
         self.images = [pygame.image.load(path.format(i)) for i in range(PIC_SUN_PATH_NUM)]
 
@@ -29,7 +29,7 @@ class Sun(MySprite):
         self.pic_index = 1
         self.left_time = 2000  # 剩余时间
         self.destination = [posx, posy]
-        self.speed = 1
+        self.speed = speed
 
     def SetLineDestination(self, dest_y):
         self._state = SunState.MOVING
@@ -58,26 +58,25 @@ class Sun(MySprite):
             self.left_time -= 1
         elif self._state == SunState.MOVING:
             if self.Y < self.destination[1]:
-                self.Y += 1
+                self.Y += self.speed
             else:
                 self._state = SunState.STATIC
         elif self._state == SunState.ARCMOVING:
             if self.X < self.destination[0]:
-                self.X += 1
+                self.X += self.speed
             if self.X > self.destination[0]:
-                self.X -= 1
+                self.X -= self.speed
             if self.Y < self.destination[1]:
-                self.Y += 1
+                self.Y += self.speed
             if self.Y > self.destination[1]:
-                self.Y -= 1
+                self.Y -= self.speed
             if self.X == self.destination[0] and self.Y == self.destination[1]:
                 self._state = SunState.STATIC
         elif self._state == SunState.GOBAR:
-            speed = 3
             if self.Y > SUN_CENTER_Y:
-                self.Y -= speed
+                self.Y -= self.speed*3
             if self.X > SUN_CENTER_X:
-                self.X -= speed
+                self.X -= self.speed*3
 
             if self.X <= SUN_CENTER_X and self.Y <= SUN_CENTER_Y:
                 self._state = SunState.DIED
