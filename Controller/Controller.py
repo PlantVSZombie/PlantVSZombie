@@ -1,26 +1,37 @@
 import pygame
 from Model.MySprite import MySprite
+from Model.Sun import Sun
 from constants import *
 from Model.PeaShooter import PeaShooter
 from Model.sunfolwer import SunFlower
 from Model.Car import Car
 from Model import Map
 from Model import Menubar
+import random
 from pygame.locals import *
 import sys, time
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
 
+sun_max = 10
+sun_index = 0
 
 class Controller():
     def __init__(self):
         self.cursor_changed = False  # 当前鼠标是否被替换
         self.plant_index = 0  # 当前替换鼠标的植物索引
-        self.plantList = []
+        self.sun_max = 20
+        self.sun_index = 0
+
+        self.peaShooterList = []
+        self.sunFlowerList = []
+        self.wallnutList = []
         self.zombieList = []
         self.bulletList = []
         self.carList = []
+        self.sunList = []
+        self.has_zombie = [0, 0, 0, 0, 0]
         self.display_index = 0  # 当前要显示的图片
         self.initiate()
 
@@ -59,14 +70,19 @@ class Controller():
             if temp_item != None:
                 self.dealSow(mos_click, temp_item)
 
-
             self.menu.update(self.menu.sun_value, pygame.time.get_ticks())
             # 对plantList更新并绘制
-            self.updatePlantList()
+            self.updatePeaShooterList()
+            self.updateSunFlowerList()
+            self.updateWallnutList()
             # 对zombieList更新并绘制
             self.updateZombieList()
             # 对bulletList更新并绘制
             self.updateBulletList()
+            # 对carList更新并绘制
+            self.updateCarList()
+            # 对sunList更新并绘制
+            self.updateSunList()
 
             self.menu.draw(self.screen)
 
@@ -114,19 +130,20 @@ class Controller():
                 self.cursor_changed = False  # 不替换
                 self.menu.setCardFrozenTimer(pygame.time.get_ticks(), item)
                 self.menu.decSunValue(item.getSunCost())
+
     ''' 播种植物，在内部需要将mos_pos修改成几行几列，给Plant用;
         index=0则种向日葵，index=1则种豌豆射手。
     '''
 
-    def sowPlant(self, col, row,index):
+    def sowPlant(self, col, row, index):
         if index == 0:
             self.plantList.append(SunFlower(col, row))
         if index == 1:
             self.plantList.append(PeaShooter(col, row))
 
-    def updatePlantList(self):
-        for plant in self.plantList:
-            if self.display_index % 20 == 1:  # 这里的条件要修改
+    def updatePeaShooterList(self):
+        for plant in self.peaShooterList:
+            if self.display_index % 20 == 1 and self.has_zombie[self.plant.getY()] > 0:  # 这里的条件要修改
                 bullet = plant.shot()
                 self.bulletList.append(bullet)
             self.screen.blit(plant.images[self.display_index % 13], plant.rect)
@@ -134,13 +151,28 @@ class Controller():
             if plant.alive == False:
                 self.plantList.remove(plant)
 
+    def updateSunFlowerList(self):
+        for sunflower in self.sunflowerList:
+            self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+            if sunflower.isAlive() == False:
+                self.sunflowerList.remove(sunflower)
+
+    def updateWallnut(self):
+        for wallnut in self.wallnutList:
+            self.screen.blit(wallnut.images[self.display_index % 15], wallnut.rect)
+            if wallnut.isAlive() == False:
+                self.wallnutList.remove(wallnut)
+
     def updateZombieList(self):
         for zombie in self.zombieList:
             self.screen.blit(zombie.images[self.display_index % 20], zombie.rect)
             zombie.move()
-            zombie.attack(self.plantList)
+            zombie.attack(self.peaShooterList)
+            zombie.attack(self.wallnutList)
+            zombie.attack(self.sunflowerList)
             if zombie.is_alive == False:
                 self.zombieList.remove(zombie)
+                self.has_zombie[zombie.getY()] -= 1
 
     def updateBulletList(self):
         for bullet in self.bulletList:
@@ -161,3 +193,22 @@ class Controller():
             car.draw(self.screen)  # 绘图
             if car.isRUN_OUT_SCREEN():  # 小车跑出去了
                 self.carList.remove(car)
+
+    def updateSunList(self):
+        if self.sun_index >= self.sun_max:
+            sun = Sun(random.randint(200, 800), 0, 5)  # 初始X，Y坐标
+            sun.SetLineDestination(random.randint(50, 500))  # 直线下降 参数：目标Y坐标 白天自动生成的
+            self.sunList.append(sun)
+            self.sun_index = 0
+        else:
+            self.sun_index += 1
+        x, y = pygame.mouse.get_pos()
+        mouse_click, _, _ = pygame.mouse.get_pressed()
+        for sun in self.sunList:
+            sun.update()  # 更新状态
+            if sun.isAlive():
+                sun.draw(self.screen)
+                if sun.isClicked(mouse_click, (x, y)):
+                    print("阳光+10")
+            else:
+                self.sunList.remove(sun)

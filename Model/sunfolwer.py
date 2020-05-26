@@ -19,6 +19,7 @@ class SunFlower(pygame.sprite.Sprite):
     def produce(self):
         sun=Sun(self.rect.left,self.rect.top)
         sun.SetArcDestination(self.rect.left+10,self.rect.top+20)
+        return sun
 
 
     def isAlive(self):
