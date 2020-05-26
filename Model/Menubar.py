@@ -2,12 +2,6 @@ import random
 import pygame as pg
 import constants as c
 
-PANEL_Y_START = 87
-PANEL_X_START = 22
-PANEL_Y_INTERNAL = 74
-PANEL_X_INTERNAL = 53
-CARD_LIST_NUM = 8
-
 card_name_list = ['../resources/pics/items/card_sunflower.png', '../resources/pics/items/card_peashooter.png']
 plant_sun_list = [50, 100]
 plant_frozen_time_list = [7500, 7500]
@@ -55,6 +49,7 @@ class Card():
         self.temp_image.set_alpha(128)
     '''设置成未选中'''
     def setUnchosen(self):
+        image=pg.Surface([self.rect.w,self.rect.h])
         self.temp_image.set_alpha(255)
     def getSunCost(self):
         return self.sun_cost
