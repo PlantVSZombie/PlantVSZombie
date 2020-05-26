@@ -34,5 +34,3 @@ class Bullet(pygame.sprite.Sprite):
         else:
             self.state="out"
 
-    def boom(self):
-        self.state = "explode"

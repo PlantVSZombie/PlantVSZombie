@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
 
     plantList=[]
-    peashooter=PeaShooter()
+    peashooter=PeaShooter(2,0)
     plantList.append(peashooter)
     block=pygame.time.Clock()
     bulletList=[]
