@@ -7,33 +7,68 @@ from constants import PIC_SUN_PATH, PIC_SUN_PATH_NUM
 
 
 class SunState(Enum):
-    HIDE = 0
+    DIED = 0  # 时间到了的死亡状态
     STATIC = 1  # 静止状态
-    MOVING = 2
+    MOVING = 2  # 白天产生的 竖直向下移动
+    ARCMOVING = 3  # 太阳花产生的 弧线移动
+
+
 class Sun(MySprite):
 
-    def __init__(self, posx, posy):
-        carimg = [pygame.image.load("../" + PIC_SUN_PATH.format(i) for i in range(PIC_SUN_PATH_NUM)).convert_alpha()]
+    def __init__(self, posx, posy, state=SunState.MOVING):
+        path = "../" + PIC_SUN_PATH
+        self.images = [pygame.image.load(path.format(i)) for i in range(PIC_SUN_PATH_NUM)]
 
-        super().__init__(carimg)
+        super().__init__(self.images[0])
         self.position = posx, posy
 
-        self._state = SunState.HIDE
+        self._state = SunState.DIED
 
         self.pic_index = 1
-        self.left_time=1000 #剩余时间
-        self.destion = [0,0]
+        self.left_time = 2000  # 剩余时间
+        self.destination = [posx, posy]
+        self.speed = 1
 
-    def move(self,dest_x,dest_y):
+    def SetLineDestination(self, dest_y):
         self._state = SunState.MOVING
-        self.destion = [dest_x,dest_y]
+        self.destination[1] = dest_y
 
-    def isMoving(self):
-        return self._state == SunState.MOVING
+    def SetArcDestination(self, dest_x, dest_y):
+        self._state = SunState.ARCMOVING
+        self.destination = [dest_x, dest_y]
+
+    def isClicked(self, mouse_click, mouse_pos):  # 检查是否被点中
+        x, y = mouse_pos
+        if mouse_click and (self.rect.x < x <= self.rect.right and
+                            self.rect.y <= y <= self.rect.bottom):
+            self._state = SunState.DIED
+            return True
+        return False
+
+    def isAlive(self):
+        return self._state != SunState.DIED
 
     def update(self):
         # super.update(self)
         if self._state == SunState.STATIC:
-            pass
+            if self.left_time < 0:
+                self._state = SunState.DIED
+            self.left_time -= 1
         elif self._state == SunState.MOVING:
-            self.Y += 1
+            if self.Y < self.destination[1]:
+                self.Y += 1
+            else:
+                self._state = SunState.STATIC
+        elif self._state == SunState.ARCMOVING:
+            if self.X < self.destination[0]:
+                self.X += 1
+            if self.Y < self.destination[1]:
+                self.Y += 1
+            if self.X == self.destination[0] and self.Y == self.destination[1]:
+                self._state = SunState.STATIC
+
+    def draw(self, screen):
+        if self._state != SunState.DIED:
+            self.pic_index = self.pic_index%PIC_SUN_PATH_NUM
+            screen.blit(self.images[self.pic_index], self.rect)
+            self.pic_index += 1
