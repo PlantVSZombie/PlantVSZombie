@@ -2,6 +2,8 @@ from unittest import TestCase
 
 import pygame
 
+from Model import Menubar
+from Controller.Controller import Controller
 from Model.Sun import Sun
 
 
@@ -13,6 +15,8 @@ class TestSun(TestCase):
         map = pygame.image.load('../resources/pics/items/Background_0.jpg')
         block = pygame.time.Clock()
 
+        menu = Menubar.Menubar(10, 10, [0, 1], 200)
+        menu.draw(screen)
 
         sun = Sun(200, 0)
         sun.SetLineDestination(200)  # 直线下降
@@ -26,6 +30,9 @@ class TestSun(TestCase):
 
             x, y = pygame.mouse.get_pos()
             mouse_click, _, _ = pygame.mouse.get_pressed()
+            Controller.dealCardSelected((x, y), mouse_click, menu)  # 调用Controller类的管理函数
+            menu.update(menu.sun_value, pygame.time.get_ticks())
+            menu.draw(screen)
 
             sun.update()
             if sun.isAlive():

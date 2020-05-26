@@ -1,5 +1,6 @@
 import pygame
 from Model.Bullet import Bullet
+from Model.Sun import Sun
 from Model.Zone import Zone
 class SunFlower(pygame.sprite.Sprite):
     def __init__(self,x,y):
@@ -14,6 +15,11 @@ class SunFlower(pygame.sprite.Sprite):
         self.hp-=damage
         if self.hp<0:
             self.alive=False
+
+    def produce(self):
+        sun=Sun(self.rect.left,self.rect.top)
+        sun.SetArcDestination(self.rect.left+10,self.rect.top+20)
+
 
     def isAlive(self):
         return self.alive
