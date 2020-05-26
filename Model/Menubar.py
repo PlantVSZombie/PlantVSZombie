@@ -2,10 +2,11 @@ import random
 import pygame as pg
 import constants as c
 
-card_name_list = ['../resources/pics/items/card_sunflower.png', '../resources/pics/items/card_peashooter.png']
-plant_sun_list = [50, 100]
-plant_frozen_time_list = [7500, 7500]
-all_card_list = [0, 1]
+card_name_list = ['../resources/pics/cards/card_sunflower.png', '../resources/pics/cards/card_peashooter.png',
+                  '../resources/pics/cards/card_wallnut.png']
+plant_sun_list = [50, 100,50]
+plant_frozen_time_list = [7500, 7500,30000]
+all_card_list = [0, 1,2]
 
 '''Card'''
 class Card():
@@ -49,7 +50,6 @@ class Card():
         self.temp_image.set_alpha(128)
     '''设置成未选中'''
     def setUnchosen(self):
-        image=pg.Surface([self.rect.w,self.rect.h])
         self.temp_image.set_alpha(255)
     def getSunCost(self):
         return self.sun_cost
@@ -70,7 +70,7 @@ class Card():
             self.befrozen=False #冷冻解除
             if self.sun_cost>sun_value:#太阳不足
                 image=self.root_image.copy()
-                image.set_alpha(200)
+                image.set_alpha(140)
             else:
                 image = self.root_image.copy()
         return image
