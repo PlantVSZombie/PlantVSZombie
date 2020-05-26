@@ -24,12 +24,20 @@ class Card():
         self.frozen_time = plant_frozen_time_list[name_index]
         self.frozen_timer=-self.frozen_time#被冷冻的时间点
         self.befrozen=False
+
+    '''获取name_index，以此来跟plant产生联系'''
+    def getIndex(self):
+        return self.name_index
+
     '''加载卡片上的图片'''
     def loadFrame(self,name):
         frame=pg.image.load(name).convert_alpha()
         self.rect = frame.get_rect()
         image = pg.Surface([self.rect.width, self.rect.height])
         image.blit(frame, (0, 0), self.rect)
+        image=pg.transform.scale(image,(int(self.rect.width*0.78),int(self.rect.height*0.78)))#缩小尺寸
+        self.rect.w=int(self.rect.width * 0.78)
+        self.rect.h = int(self.rect.height * 0.78)
         self.root_image=image
         self.temp_image=self.root_image
     '''检查该卡片是否被选中'''
@@ -83,11 +91,14 @@ class Menubar():
         self.rect.x=x
         self.rect.y=y
         self.sun_value=sun_value
-        self.card_offset_x=32
+        self.card_offset_x=24
+        self.card_offset_y = 8
         self.setCards(card_list)#card_list是index值
     def loadFrame(self,name):
-        self.image=pg.image.load(name).convert_alpha()
-        self.rect=self.image.get_rect()
+        frame = pg.image.load(name).convert_alpha()
+        self.rect = frame.get_rect()
+        self.image = pg.Surface([self.rect.width, self.rect.height])
+        self.image.blit(frame, (0, 0), self.rect)
     '''增减阳光数值'''
     def incSunValue(self,value):
         self.sun_value+=value
@@ -115,7 +126,7 @@ class Menubar():
         self.value_image=self.getSunValueImage(self.sun_value)
         self.value_rect=self.value_image.get_rect()
         self.value_rect.x = 20
-        self.value_rect.y = self.rect.bottom - 31
+        self.value_rect.y = self.rect.y+self.rect.h - 31
         self.image.blit(self.value_image, self.value_rect)
     '''检查bar内卡片是否被点击，并返回相应卡片信息'''
     def checkCardChosen(self,mouse_click,mouse_pos):
@@ -133,7 +144,7 @@ class Menubar():
     def setCards(self,card_list):
         self.card_list=[]
         x=self.card_offset_x
-        y=8
+        y=self.card_offset_y
         for index in card_list:
             x += 55
             self.card_list.append(Card(x, y, index))
@@ -147,5 +158,5 @@ class Menubar():
         self.drawSunValue()
         surface.blit(self.image, self.rect)
         for card in self.card_list:
-            card.draw(surface)
+            card.draw(self.image)
 
