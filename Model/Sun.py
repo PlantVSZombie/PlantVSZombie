@@ -51,6 +51,7 @@ class Sun(MySprite):
     def isAlive(self):
         return self._state != SunState.DIED
 
+
     def update(self):
         # super.update(self)
         if self._state == SunState.STATIC:
@@ -63,14 +64,26 @@ class Sun(MySprite):
             else:
                 self._state = SunState.STATIC
         elif self._state == SunState.ARCMOVING:
-            if self.X < self.destination[0]:
-                self.X += self.speed
-            if self.X > self.destination[0]:
-                self.X -= self.speed
-            if self.Y < self.destination[1]:
-                self.Y += self.speed
-            if self.Y > self.destination[1]:
-                self.Y -= self.speed
+            if abs(self.X-self.destination[0]) > self.speed:
+                if self.X < self.destination[0]:
+                    self.X += self.speed
+                if self.X > self.destination[0]:
+                    self.X -= self.speed
+            else:
+                if self.X < self.destination[0]:
+                    self.X += 1
+                if self.X > self.destination[0]:
+                    self.X -= 1
+            if abs(self.Y-self.destination[1]) > self.speed:
+                if self.Y < self.destination[1]:
+                    self.Y += self.speed
+                if self.Y > self.destination[1]:
+                    self.Y -= self.speed
+            else:
+                if self.Y < self.destination[1]:
+                    self.Y += 1
+                if self.Y > self.destination[1]:
+                    self.Y -= 1
             if self.X == self.destination[0] and self.Y == self.destination[1]:
                 self._state = SunState.STATIC
         elif self._state == SunState.GOBAR:

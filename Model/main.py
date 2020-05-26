@@ -1,6 +1,4 @@
 import random
-
-import pygame
 import sys
 
 import pygame
@@ -10,13 +8,8 @@ from Model.PeaShooter import PeaShooter
 from Model.Sun import Sun
 from Model.Zombie import Zombie
 from Model.Zone import Zone
-from Model.Bullet import Bullet
-from Model.wallnut import  WallNut
 from Model.sunfolwer import SunFlower
-
-
-
-
+from Model.wallnut import WallNut
 
 if __name__ == '__main__':
     zone=Zone()
