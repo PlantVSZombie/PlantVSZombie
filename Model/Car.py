@@ -6,7 +6,8 @@ from Model.MySprite import MySprite
 from Model.Zone import Zone
 from constants import PIC_CAR_PATH
 
-SCREEN_WIDTH=1200
+SCREEN_WIDTH = 1000
+CAR_SPEED = 10
 class CarState(Enum):
     STATIC = 1  # 静止状态
     MOVING = 2
@@ -23,7 +24,6 @@ class Car(MySprite):
 
         self._state = CarState.STATIC
 
-        self.speed = 10
 
     @classmethod
     def CreateCarAtRow(cls, y):
@@ -38,7 +38,7 @@ class Car(MySprite):
         if self._state == CarState.STATIC:
             pass
         elif self._state == CarState.MOVING:
-            self.X += self.speed
+            self.X += CAR_SPEED
             if self.X > SCREEN_WIDTH:
                 self._state = CarState.RUN_OUT_SCREEN
 

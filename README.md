@@ -81,7 +81,7 @@ getGridPos草坪坐标转化为像素坐标
 #创建太阳
     if sun_index>=sun_max:
         sun = Sun(random.randint(200,800), 0,5) #初始X，Y坐标，速度（可省略）
-        sun.SetLineDestination(200)  # 直线下降 参数：目标Y坐标 白天自动生成的
+        sun.SetLineDestination(random.randint(50,500))  # 直线下降 参数：目标Y坐标 白天自动生成的
         suns.append(sun)
         sun_index=0
     else:

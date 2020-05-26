@@ -7,6 +7,7 @@ from constants import PIC_SUN_PATH, PIC_SUN_PATH_NUM
 
 SUN_CENTER_X = 10
 SUN_CENTER_Y = 10
+SUN_LEFT_TIME = 100 #阳光超时自动消失
 
 class SunState(Enum):
     DIED = 0  # 时间到了的死亡状态
@@ -27,7 +28,7 @@ class Sun(MySprite):
         self._state = SunState.DIED
 
         self.pic_index = 1
-        self.left_time = 2000  # 剩余时间
+        self.left_time = SUN_LEFT_TIME  # 剩余时间
         self.destination = [posx, posy]
         self.speed = speed
 
