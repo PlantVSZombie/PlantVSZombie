@@ -5,13 +5,15 @@ import pygame
 from Model.MySprite import MySprite
 from constants import PIC_SUN_PATH, PIC_SUN_PATH_NUM
 
+SUN_CENTER_X = 10
+SUN_CENTER_Y = 10
 
 class SunState(Enum):
     DIED = 0  # 时间到了的死亡状态
     STATIC = 1  # 静止状态
     MOVING = 2  # 白天产生的 竖直向下移动
     ARCMOVING = 3  # 太阳花产生的 弧线移动
-
+    GOBAR = 4 #点击之后移动到Bar
 
 class Sun(MySprite):
 
@@ -39,9 +41,9 @@ class Sun(MySprite):
 
     def isClicked(self, mouse_click, mouse_pos):  # 检查是否被点中
         x, y = mouse_pos
-        if mouse_click and (self.rect.x < x <= self.rect.right and
+        if self._state != SunState.GOBAR and mouse_click and (self.rect.x < x <= self.rect.right and
                             self.rect.y <= y <= self.rect.bottom):
-            self._state = SunState.DIED
+            self._state = SunState.GOBAR
             return True
         return False
 
@@ -62,10 +64,23 @@ class Sun(MySprite):
         elif self._state == SunState.ARCMOVING:
             if self.X < self.destination[0]:
                 self.X += 1
+            if self.X > self.destination[0]:
+                self.X -= 1
             if self.Y < self.destination[1]:
                 self.Y += 1
+            if self.Y > self.destination[1]:
+                self.Y -= 1
             if self.X == self.destination[0] and self.Y == self.destination[1]:
                 self._state = SunState.STATIC
+        elif self._state == SunState.GOBAR:
+            speed = 3
+            if self.Y > SUN_CENTER_Y:
+                self.Y -= speed
+            if self.X > SUN_CENTER_X:
+                self.X -= speed
+
+            if self.X <= SUN_CENTER_X and self.Y <= SUN_CENTER_Y:
+                self._state = SunState.DIED
 
     def draw(self, screen):
         if self._state != SunState.DIED:
