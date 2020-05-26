@@ -4,6 +4,8 @@ from Model.PeaShooter import PeaShooter
 from Model.Zombie import Zombie
 from Model.Zone import Zone
 from Model.Bullet import Bullet
+from Model.wallnut import  WallNut
+from Model.sunfolwer import SunFlower
 
 
 
@@ -20,10 +22,15 @@ if __name__ == '__main__':
     zombie2 = Zombie(9)
     zombieList.append(zombie2)
 
-
+    wallnutList=[]
+    sunflowerList=[]
     plantList=[]
-    peashooter=PeaShooter(2,0)
+    peashooter=PeaShooter(6,0)
+    wallnut=WallNut(6,1)
+    sunflower=SunFlower(5,1)
     plantList.append(peashooter)
+    sunflowerList.append(sunflower)
+    wallnutList.append(wallnut)
     block=pygame.time.Clock()
     bulletList=[]
     pygame.init()
@@ -41,6 +48,16 @@ if __name__ == '__main__':
 
 
         screen.blit(backGroup,(0,0))
+        for sunflower in sunflowerList:
+            screen.blit(sunflower.images[index % 17], sunflower.rect)
+            if sunflower.isAlive()==False:
+                sunflowerList.remove(sunflower)
+        for wallnut in wallnutList:
+            screen.blit(wallnut.images[index % 15], wallnut.rect)
+            if wallnut.isAlive()==False:
+                wallnutList.remove(wallnut)
+
+
         for plant in plantList:
             if index % 20 == 1:
                 bullet =plant.shot()
@@ -53,6 +70,8 @@ if __name__ == '__main__':
             screen.blit(zombie.images[index % 20], zombie.rect)
             zombie.move()
             zombie.attack(plantList)
+            zombie.attack(wallnutList)
+            zombie.attack(sunflowerList)
             if zombie.is_alive==False:
                 zombieList.remove(zombie)
 
