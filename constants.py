@@ -3,6 +3,8 @@ SunFlower_PATH="resources/pics/plants/SunFlower_0.png"
 PeaShooter_PATH="resources/pics/plants/Peashooter_0.png"
 BulletNormal_PATH="resources/pics/bullets/PeaNormal_0.png"
 BulletExplode_PATH="resources/pics/bullets/PeaNormalExplode_0.png"
+PIC_SUN_PATH = "resources/pics/items/Sun/Sun_{:d}.png"
+PIC_SUN_PATH_NUM = 21
 '''颜色'''
 WHITE        = (255, 255, 255)
 NAVYBLUE     = ( 60,  60, 100)
