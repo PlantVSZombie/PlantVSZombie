@@ -11,7 +11,6 @@ from Model.Zone import Zone
 from Model.Bullet import Bullet
 from Model.wallnut import  WallNut
 from Model.sunfolwer import SunFlower
-import random
 
 
 
