@@ -1,7 +1,7 @@
 import pygame
 from Model.MySprite import MySprite
 from constants import *
-from Model import PeaShooter
+from Model import PeaShooter, Car
 from Model import Map
 from Model import Menubar
 from pygame.locals import *
@@ -18,6 +18,7 @@ class Controller():
         self.plantList = []
         self.zombieList = []
         self.bulletList = []
+        self.carList = []
         self.display_index = 0  # 当前要显示的图片
         self.initiate()
 
@@ -30,7 +31,9 @@ class Controller():
         self.map = Map.Map(self.screen)
         self.menu = Menubar.Menubar(10, 10, [0, 1], 200)
         self.menu.draw(self.screen)
-
+        for i in range(5):
+            car = Car.CreateCarAtRow(i)  # 第i行的车 对不齐是getGridPos函数可能有点问题
+            self.carList.append(car)
         while True:
             self.map.draw(self.screen)
             self.menu.draw(self.screen)
@@ -63,6 +66,7 @@ class Controller():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+            self.display_index += 1
 
     '''判断卡片是否被选择并且做出相应动作
         传参：鼠标位置，鼠标点击，菜单实例
@@ -103,13 +107,13 @@ class Controller():
 
     def sowPlant(self, col, row):
         if self.plant_index == 0:
-            self.plantList.append(PeaShooter(col, row))
+            self.plantList.append(SunFlower(col, row))
         if self.plant_index == 1:
-            self.plant_index.append(SunFlower(col, row))
+            self.plantList.append(PeaShooter(col, row))
 
     def updatePlantList(self):
         for plant in self.plantList:
-            if self.display_index % 20 == 1:  #这里的条件要修改
+            if self.display_index % 20 == 1:  # 这里的条件要修改
                 bullet = plant.shot()
                 self.bulletList.append(bullet)
             self.screen.blit(plant.images[self.display_index % 13], plant.rect)
@@ -125,8 +129,6 @@ class Controller():
             if zombie.is_alive == False:
                 self.zombieList.remove(zombie)
 
-
-
     def updateBulletList(self):
         for bullet in self.bulletList:
             if bullet.state != "out":
@@ -138,3 +140,11 @@ class Controller():
             else:
 
                 self.bulletList.remove(bullet)
+
+    def updateCarList(self):
+        for car in self.carList:
+            car.check(self.zombieList)  # 检测是否有碰撞
+            car.update()  # 更新状态
+            car.draw(self.screen)  # 绘图
+            if car.isRUN_OUT_SCREEN():  # 小车跑出去了
+                self.carList.remove(car)
