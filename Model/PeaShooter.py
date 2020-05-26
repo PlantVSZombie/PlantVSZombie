@@ -6,8 +6,8 @@ class PeaShooter(pygame.sprite.Sprite):
         super(PeaShooter, self).__init__()
         self.images = [pygame.image.load('../resources/pics/Peashooter/Peashooter_{:d}.png'.format(i)) for i in range (13)]
         self.rect = self.images[0].get_rect()
-        z=Zone()
-        self.rect.left, self.rect.top =z.getGridPos(x,y)
+        self.z=Zone()
+        self.rect.left, self.rect.top =self.z.getGridPos(x,y)
         self.hp=200
         self.alive=True
     def shot(self):
@@ -16,6 +16,9 @@ class PeaShooter(pygame.sprite.Sprite):
         self.hp-=damage
         if self.hp<0:
             self.alive=False
+
+    def getY(self):
+        return self.z.getIndex(self.rect.left,self.rect.top)[1]
 
     def isAlive(self):
         return self.alive

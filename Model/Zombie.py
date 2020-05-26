@@ -10,7 +10,7 @@ class Zombie(pygame.sprite.Sprite):
         self.rect = self.images[0].get_rect()
         self.z=Zone()
         self.rect.left=self.z.getGridPos(x,random.randint(0,1))[0]
-        self.rect.top =self.z.getGridPos(x,random.randint(0,1))[1]-60
+        self.rect.top =self.z.getGridPos(x,random.randint(0,4))[1]-60
         self.speed=4
         self.hp=100
         self.is_alive=True
@@ -36,6 +36,9 @@ class Zombie(pygame.sprite.Sprite):
 
         if self.hp<0:
             self.is_alive=False
+
+    def getY(self):
+        return self.z.getIndex(self.rect.left,self.rect.top+60)[1]
 
     def attack(self,enemyList):
         for enemy in enemyList:

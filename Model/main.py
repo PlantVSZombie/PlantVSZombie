@@ -11,6 +11,7 @@ from Model.Zone import Zone
 from Model.Bullet import Bullet
 from Model.wallnut import  WallNut
 from Model.sunfolwer import SunFlower
+import random
 
 
 
@@ -19,21 +20,26 @@ from Model.sunfolwer import SunFlower
 if __name__ == '__main__':
     zone=Zone()
 
+    has_zombie=[0,0,0,0,0]
+
     zombieList=[]
     zombie = Zombie(7)
     zombieList.append(zombie)
+    has_zombie[zombie.getY()]+=1
     zombie1 = Zombie(8)
     zombieList.append(zombie1)
+    has_zombie[zombie1.getY()] += 1
     zombie2 = Zombie(9)
     zombieList.append(zombie2)
+    has_zombie[zombie2.getY()] += 1
 
     wallnutList=[]
     sunflowerList=[]
-    plantList=[]
-    peashooter=PeaShooter(6,0)
+    peaList=[]
+    peashooter=PeaShooter(0,0)
     wallnut=WallNut(6,1)
     sunflower=SunFlower(5,1)
-    plantList.append(peashooter)
+    peaList.append(peashooter)
     sunflowerList.append(sunflower)
     wallnutList.append(wallnut)
     block=pygame.time.Clock()
@@ -73,22 +79,23 @@ if __name__ == '__main__':
                 wallnutList.remove(wallnut)
 
 
-        for plant in plantList:
-            if index % 20 == 1:
-                bullet =plant.shot()
+        for pea in peaList:
+            if index % 20 == 1 and has_zombie[pea.getY()]>0:
+                bullet =pea.shot()
                 bulletList.append(bullet)
-            screen.blit(plant.images[index%13],plant.rect)
+            screen.blit(pea.images[index%13],pea.rect)
 
-            if plant.alive==False:
-                plantList.remove(plant)
+            if pea.alive==False:
+                peaList.remove(pea)
         for zombie in zombieList:
             screen.blit(zombie.images[index % 20], zombie.rect)
             zombie.move()
-            zombie.attack(plantList)
+            zombie.attack(peaList)
             zombie.attack(wallnutList)
             zombie.attack(sunflowerList)
             if zombie.is_alive==False:
                 zombieList.remove(zombie)
+                has_zombie[zombie.getY()]-=1
 
         for bullet in bulletList:
             if bullet.state!="out":
