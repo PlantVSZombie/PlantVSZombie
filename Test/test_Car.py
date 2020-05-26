@@ -16,16 +16,17 @@ class TestCar(TestCase):
         framerate = pygame.time.Clock()
         font = pygame.font.Font(None, 18)
 
-        car=Car()
-        car.position=(100,100)
+        car=Car(100,100)
         cars=pygame.sprite.Group()
         cars.add(car)
 
         while True:
-            x,y=car.position
-            car.position = (x+1,y)
-            cars.draw(screen)
-            pygame.display.update()
+            screen.fill([255, 255, 255])
+            car.move()
+            car.update()
+            screen.blit(car.image,car.rect)
+
+            pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
