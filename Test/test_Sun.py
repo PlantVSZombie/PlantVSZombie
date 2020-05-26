@@ -2,7 +2,6 @@ from unittest import TestCase
 
 import pygame
 
-from Model import Menubar, Controller
 from Model.Sun import Sun
 
 
@@ -12,24 +11,21 @@ class TestSun(TestCase):
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("测试卡片")
         map = pygame.image.load('../resources/pics/items/Background_0.jpg')
+        block = pygame.time.Clock()
 
-        menu = Menubar.Menubar(10, 10, [0, 1], 200)
-        menu.draw(screen)
 
         sun = Sun(200, 0)
         sun.SetLineDestination(200)  # 直线下降
 
-        sun2 = Sun(200, 200)
-        sun2.SetArcDestination(250, 200)  # 斜着跑
+        sun2 = Sun(200, 200,7)
+        sun2.SetArcDestination(250, 260)  # 斜着跑
 
         while True:
+            block.tick(15)
             screen.blit(map, (0, 0))
 
             x, y = pygame.mouse.get_pos()
             mouse_click, _, _ = pygame.mouse.get_pressed()
-            Controller.dealCardSelected((x, y), mouse_click, menu)  # 调用Controller类的管理函数
-            menu.update(menu.sun_value, pygame.time.get_ticks())
-            menu.draw(screen)
 
             sun.update()
             if sun.isAlive():
