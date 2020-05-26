@@ -5,8 +5,8 @@ from Model.Controller import Controller
 
 class TestController(TestCase):
     def test_initiate(self):
-        controller=Controller()
-        controller.initiate()
+        Controller()
+
     def test_deal_card_selected(self):
         self.fail()
 

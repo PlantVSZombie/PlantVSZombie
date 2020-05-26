@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from Model.MySprite import MySprite
+from Model.Zone import Zone
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -12,6 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect=self.normalBullet_img.get_rect()
         self.rect.left=plant.rect.left+35
         self.rect.top=plant.rect.top
+        self.z=Zone()
         self.power = 20
         self.state = "normal"
 
@@ -24,6 +26,8 @@ class Bullet(pygame.sprite.Sprite):
                 self.normalBullet_img = pygame.image.load("../" + BulletExplode_PATH).convert_alpha()
                 enemy.setDamage(self.power)
 
+    def getY(self):
+        return self.z.getIndex(self.rect.left,self.rect.top)[1]
 
 
     def update(self):
