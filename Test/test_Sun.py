@@ -2,7 +2,8 @@ from unittest import TestCase
 
 import pygame
 
-from Model import Menubar, Controller
+from Model import Menubar
+from Controller.Controller import Controller
 from Model.Sun import Sun
 
 
