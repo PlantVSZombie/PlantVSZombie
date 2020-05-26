@@ -17,6 +17,7 @@ SCREEN_HEIGHT = 600
 sun_max = 10
 sun_index = 0
 
+
 class Controller():
     def __init__(self):
         self.cursor_changed = False  # 当前鼠标是否被替换
@@ -45,10 +46,12 @@ class Controller():
         self.menu = Menubar.Menubar(10, 10, [0, 1], 200)
         self.menu.draw(self.screen)
         temp_item = None
+        block = pygame.time.Clock()
         for i in range(5):
             car = Car.CreateCarAtRow(i)  # 第i行的车 对不齐是getGridPos函数可能有点问题
             self.carList.append(car)
         while True:
+            block.tick(15)
             self.map.draw(self.screen)
             self.menu.draw(self.screen)
             mos_pos = pygame.mouse.get_pos()
@@ -137,13 +140,13 @@ class Controller():
 
     def sowPlant(self, col, row, index):
         if index == 0:
-            self.plantList.append(SunFlower(col, row))
+            self.sunFlowerList.append(SunFlower(col, row))
         if index == 1:
-            self.plantList.append(PeaShooter(col, row))
+            self.peaShooterList.append(PeaShooter(col, row))
 
     def updatePeaShooterList(self):
         for plant in self.peaShooterList:
-            if self.display_index % 20 == 1 and self.has_zombie[self.plant.getY()] > 0:  # 这里的条件要修改
+            if self.display_index % 20 == 1 and self.has_zombie[plant.getY()] > 0:
                 bullet = plant.shot()
                 self.bulletList.append(bullet)
             self.screen.blit(plant.images[self.display_index % 13], plant.rect)
@@ -152,12 +155,19 @@ class Controller():
                 self.plantList.remove(plant)
 
     def updateSunFlowerList(self):
-        for sunflower in self.sunflowerList:
+        for sunflower in self.sunFlowerList:
+            if self.display_index % 18 == 17:
+                if sunflower.times == 5:
+                    sun = sunflower.produce()  # 要添加向日葵变金色，可在类里
+                    self.sunList.append(sun)
+                    sunflower.times = 0
+                else:
+                    sunflower.times += 1
             self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
             if sunflower.isAlive() == False:
-                self.sunflowerList.remove(sunflower)
+                self.sunFlowerList.remove(sunflower)
 
-    def updateWallnut(self):
+    def updateWallnutList(self):
         for wallnut in self.wallnutList:
             self.screen.blit(wallnut.images[self.display_index % 15], wallnut.rect)
             if wallnut.isAlive() == False:
