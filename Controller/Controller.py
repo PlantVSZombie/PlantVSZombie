@@ -4,6 +4,7 @@ from Model.Sun import Sun
 from constants import *
 from Model.PeaShooter import PeaShooter
 from Model.sunfolwer import SunFlower
+from Model.wallnut import WallNut
 from Model.Car import Car
 from Model import Map
 from Model import Menubar
@@ -43,7 +44,7 @@ class Controller():
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("测试卡片")
         self.map = Map.Map(self.screen)
-        self.menu = Menubar.Menubar(10, 10, [0, 1], 200)
+        self.menu = Menubar.Menubar(10, 10, [0, 1, 2], 200)
         self.menu.draw(self.screen)
         temp_item = None
         block = pygame.time.Clock()
@@ -143,6 +144,8 @@ class Controller():
             self.sunFlowerList.append(SunFlower(col, row))
         if index == 1:
             self.peaShooterList.append(PeaShooter(col, row))
+        if index == 2:
+            self.wallnutList.append(WallNut(col, row))
 
     def updatePeaShooterList(self):
         for plant in self.peaShooterList:
@@ -174,6 +177,7 @@ class Controller():
                 self.wallnutList.remove(wallnut)
 
     def updateZombieList(self):
+
         for zombie in self.zombieList:
             self.screen.blit(zombie.images[self.display_index % 20], zombie.rect)
             zombie.move()
@@ -219,6 +223,7 @@ class Controller():
             if sun.isAlive():
                 sun.draw(self.screen)
                 if sun.isClicked(mouse_click, (x, y)):
-                    print("阳光+10")
+                    self.menu.incSunValue(25)
+                    print("阳光+25")
             else:
                 self.sunList.remove(sun)
