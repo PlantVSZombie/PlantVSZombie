@@ -1,13 +1,13 @@
-import pygame
+import random
 import sys
+
+import pygame
+
+from Model.Car import Car
 from Model.PeaShooter import PeaShooter
+from Model.Sun import Sun
 from Model.Zombie import Zombie
 from Model.Zone import Zone
-from Model.Bullet import Bullet
-
-
-
-
 
 if __name__ == '__main__':
     zone=Zone()
@@ -33,6 +33,16 @@ if __name__ == '__main__':
     img_background_path='../resources/pics/items/Background_0.jpg'
     backGroup=pygame.image.load(img_background_path).convert()
     index=0
+
+    cars = []
+    for i in range(5):
+        car = Car.CreateCarAtRow(i)  # 第i行的车
+        cars.append(car)
+
+    suns=[]
+    sun_index=0
+    sun_max=20 #控制多久产生一个太阳
+
     while True:
 
         block.tick(15)
@@ -68,7 +78,32 @@ if __name__ == '__main__':
                 bulletList.remove(bullet)
 
 
+        for car in cars:
+            car.check(zombieList)
+            car.update() #更新状态
+            car.draw(screen)
+            if car.isRUN_OUT_SCREEN():
+                cars.remove(car)
 
+        if sun_index>=sun_max:
+            sun = Sun(random.randint(200,800), 0,5) #初始X，Y坐标
+            sun.SetLineDestination(200)  # 直线下降 参数：目标Y坐标 白天自动生成的
+            suns.append(sun)
+            sun_index=0
+        else:
+            sun_index+=1
+
+        x, y = pygame.mouse.get_pos()
+        mouse_click, _, _ = pygame.mouse.get_pressed()
+
+        for sun in suns:
+            sun.update() #更新状态
+            if sun.isAlive():
+                sun.draw(screen)
+                if sun.isClicked(mouse_click, (x, y)):
+                    print("阳光+10")
+            else:
+                suns.remove(sun)
 
         pygame.display.update()
         index+=1

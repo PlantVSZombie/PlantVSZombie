@@ -16,15 +16,17 @@ class TestCar(TestCase):
         framerate = pygame.time.Clock()
         font = pygame.font.Font(None, 18)
 
-        car=Car(100,100)
-        cars=pygame.sprite.Group()
-        cars.add(car)
+        cars = []
+        for i in range(5):
+            car = Car.CreateCarAtRow(i) #第i行的车
+            cars.append(car)
 
         while True:
             screen.fill([255, 255, 255])
-            car.move()
-            car.update()
-            screen.blit(car.image,car.rect)
+            for car in cars:
+                #car.move() #向前移动一点
+                car.update() #更新状态
+                screen.blit(car.image,car.rect) #画图
 
             pygame.display.flip()
             for event in pygame.event.get():
