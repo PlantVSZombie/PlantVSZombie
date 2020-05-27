@@ -8,7 +8,7 @@ class SunFlower(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(SunFlower, self).__init__()
         self.images = [pygame.image.load('../resources/pics/SunFlower/SunFlower_{:d}.png'.format(i)) for i in range(17)]
-        self.golden = [pygame.image.load('../resources/pics/GoldenSunFlower/GoldenSunFlower_{:d}.png'.format(i)) for i in range(16,18)]
+        self.golden = [pygame.image.load('../resources/pics/GoldenSunFlower/GoldenSunFlower_{:d}.png'.format(i)) for i in range(14,18)]
         self.rect = self.images[0].get_rect()
         z = Zone()
         self.rect.left, self.rect.top = z.getGridPos(x, y)

@@ -18,7 +18,7 @@ class Zombie(pygame.sprite.Sprite):
         self.power=15
 
     def move(self):
-        # if self.rect.left<self.z.MAP_OFFSET_X-200:
+        #if self.rect.left<self.z.MAP_OFFSET_X-200:
         #     self.is_alive=False
         if not self.is_attack:
             self.rect.left-=self.speed

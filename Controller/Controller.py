@@ -24,10 +24,10 @@ sun_index = 0
 
 
 class Controller():
-    def __init__(self,screen):
+    def __init__(self, screen):
         self.cursor_changed = False  # 当前鼠标是否被替换
         self.plant_index = 0  # 当前替换鼠标的植物索引
-        self.over=False #游戏结束的标志
+        self.over = False  # 游戏结束的标志
         self.sun_max = 20
         self.sun_index = 0
         self.zombie_maxtime = 100
@@ -40,12 +40,13 @@ class Controller():
         self.carList = []
         self.sunList = []
         self.has_zombie = [0, 0, 0, 0, 0]
+        self.has_car = [1, 1, 1, 1, 1]
         self.display_index = 0  # 当前要显示的图片
         self.initiate(screen)
 
     '''负责启动整个游戏界面'''
 
-    def initiate(self,screen):
+    def initiate(self, screen):
         pygame.init()
         self.screen = screen
         pygame.display.set_caption("测试卡片")
@@ -63,7 +64,7 @@ class Controller():
             self.menu.draw(self.screen)
             mos_pos = pygame.mouse.get_pos()
             (mos_click, _, _) = pygame.mouse.get_pressed()
-            if self.over==False:
+            if self.over == False:
                 item = self.dealCardSelected(mos_pos, mos_click, self.menu)  # 调用Controller类的管理函数
                 if item != None:
                     temp_item = item
@@ -94,9 +95,13 @@ class Controller():
                 self.updateCarList()
                 # 对sunList更新并绘制
                 self.updateSunList()
+                # 判断僵尸是否走进来了
+                for zombie in self.zombieList:
+                    if zombie.rect.left <= 50 and self.has_car[zombie.getY()] == 0:
+                        self.over = True
 
-
-            #self.gameOver()
+            else:
+                self.gameOver()
 
             pygame.display.update()
             for event in pygame.event.get():
@@ -168,14 +173,17 @@ class Controller():
 
     def updateSunFlowerList(self):
         for sunflower in self.sunFlowerList:
-            if self.display_index % 18 == 17:
-                if sunflower.times == 5:
+            if self.display_index % 18 >= 14 and sunflower.times == 5:
+                if self.display_index%18 ==14:
                     sun = sunflower.produce()  # 要添加向日葵变金色，可在类里
                     self.sunList.append(sun)
-                    sunflower.times = 0
-                else:
-                    sunflower.times += 1
-            self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+                self.screen.blit(sunflower.golden[(self.display_index%18)-14],sunflower.rect)
+            else:
+                self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+            if self.display_index%18==17:
+                sunflower.times += 1
+                sunflower.times %= 6
+
             if sunflower.isAlive() == False:
                 self.sunFlowerList.remove(sunflower)
 
@@ -222,6 +230,7 @@ class Controller():
             car.draw(self.screen)  # 绘图
             if car.isRUN_OUT_SCREEN():  # 小车跑出去了
                 self.carList.remove(car)
+                self.has_car[car.row] = 0
 
     def updateSunList(self):
         if self.sun_index >= self.sun_max:
@@ -242,13 +251,13 @@ class Controller():
                     print("阳光+25")
             else:
                 self.sunList.remove(sun)
+
     def gameOver(self):
-        frame = pygame.image.load("../"+constants.GAMELOOSE_PATH).convert_alpha()
+        frame = pygame.image.load("../" + constants.GAMELOOSE_PATH).convert_alpha()
         rect = frame.get_rect()
         image = pygame.Surface([rect.width, rect.height])
         image.blit(frame, (0, 0), rect)
         image = pygame.transform.scale(image, (int(rect.width * 0.78), int(rect.height * 0.78)))  # 缩小尺寸
-        image.set_colorkey((255, 255, 255))#去白边
+        image.set_colorkey((255, 255, 255))  # 去白边
         self.screen.blit(image, (300, 0))
-        self.over=True
-
+        self.over = True

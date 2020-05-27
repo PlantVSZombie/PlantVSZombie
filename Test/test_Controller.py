@@ -1,11 +1,15 @@
 from unittest import TestCase
 
-from Model.Controller import Controller
+import pygame
+
+from Controller.Controller import Controller
 
 
 class TestController(TestCase):
     def test_initiate(self):
-        Controller()
+        screen_size = (1200, 600)
+        screen = pygame.display.set_mode(screen_size)
+        Controller(screen)
 
     def test_deal_card_selected(self):
         self.fail()
