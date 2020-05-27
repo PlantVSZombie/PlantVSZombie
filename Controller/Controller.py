@@ -253,7 +253,7 @@ class Controller():
                 self.sunList.remove(sun)
 
     def gameOver(self):
-        frame = pygame.image.load("../" + constants.GAMELOOSE_PATH).convert_alpha()
+        frame = pygame.image.load(constants.GAMELOOSE_PATH).convert_alpha()
         rect = frame.get_rect()
         image = pygame.Surface([rect.width, rect.height])
         image.blit(frame, (0, 0), rect)

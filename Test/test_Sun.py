@@ -12,7 +12,7 @@ class TestSun(TestCase):
         pygame.init()
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("测试卡片")
-        map = pygame.image.load('../resources/pics/items/Background_0.jpg')
+        map = pygame.image.load('resources/pics/items/Background_0.jpg')
         block = pygame.time.Clock()
 
         menu = Menubar.Menubar(10, 10, [0, 1], 200)

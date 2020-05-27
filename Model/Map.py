@@ -5,8 +5,8 @@ BLOCK_WIDTH=80
 BLOCK_HEIGHT=90
 LEFTTOP=(250,90)
 
-plant_name_list = ["../"+c.SunFlower_PATH, '../'+c.PeaShooter_PATH,
-                   "../"+c.WallNut_PATH]
+plant_name_list = [c.SunFlower_PATH, c.PeaShooter_PATH,
+                   c.WallNut_PATH]
 
 class GrassBlock():
     '''用草坪框左上角坐标'''
@@ -41,7 +41,7 @@ class Map():
         self.loadFrame(surface)
         self.setBlock()
     def loadFrame(self,surface):#加载背景图片
-        self.map = pg.image.load('../resources/pics/items/Background_0.jpg')
+        self.map = pg.image.load('resources/pics/items/Background_0.jpg')
         surface.blit(self.map, (0, 0))
     def setBlock(self):
         x,y=LEFTTOP

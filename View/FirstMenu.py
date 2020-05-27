@@ -18,8 +18,8 @@ def menu():
     pygame.display.set_caption("测试主菜单")
     block = pygame.time.Clock()
 
-    background = pygame.image.load("../" + PIC_FIRSTMENU_BACKGROUND_PATH).convert_alpha()
-    button = Button(650,100,"../"+PIC_FIRSTMENU_ADVENBUTTON0_PATH,"../"+PIC_FIRSTMENU_ADVENBUTTON1_PATH)
+    background = pygame.image.load( PIC_FIRSTMENU_BACKGROUND_PATH).convert_alpha()
+    button = Button(650,100,PIC_FIRSTMENU_ADVENBUTTON0_PATH,PIC_FIRSTMENU_ADVENBUTTON1_PATH)
     while True:
         block.tick(15)
         screen.blit(background, (0, 0))

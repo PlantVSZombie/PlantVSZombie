@@ -5,7 +5,7 @@ import random
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self,x):
-        self.images = [pygame.image.load('../resources/pics/Zombies/NormalZombie/Zombie/Zombie_{:d}.png'.format(i)) for i in
+        self.images = [pygame.image.load('resources/pics/Zombies/NormalZombie/Zombie/Zombie_{:d}.png'.format(i)) for i in
                        range(20)]
         self.rect = self.images[0].get_rect()
         self.z=Zone()
@@ -24,10 +24,10 @@ class Zombie(pygame.sprite.Sprite):
             self.rect.left-=self.speed
         if self.hp<40:
             self.images = [
-                pygame.image.load('../resources/pics/Zombies/NormalZombie/ZombieLostHead/ZombieLostHead_{:d}.png'.format(i))
+                pygame.image.load('resources/pics/Zombies/NormalZombie/ZombieLostHead/ZombieLostHead_{:d}.png'.format(i))
                 for i in range(20)]
         else:
-            self.images = [pygame.image.load('../resources/pics/Zombies/NormalZombie/Zombie/Zombie_{:d}.png'.format(i))
+            self.images = [pygame.image.load('resources/pics/Zombies/NormalZombie/Zombie/Zombie_{:d}.png'.format(i))
                            for i in
                            range(20)]
 
@@ -49,9 +49,9 @@ class Zombie(pygame.sprite.Sprite):
                 if enemy.isAlive()==False:
                     self.is_attack=False
                 if self.hp<40:
-                    self.images = [pygame.image.load('../resources/pics/Zombies/NormalZombie/ZombieLostHeadAttack/ZombieLostHeadAttack_{:d}.png'.format(i)) for i in range(20)]
+                    self.images = [pygame.image.load('resources/pics/Zombies/NormalZombie/ZombieLostHeadAttack/ZombieLostHeadAttack_{:d}.png'.format(i)) for i in range(20)]
                 else:
-                    self.images = [pygame.image.load('../resources/pics/Zombies/NormalZombie/ZombieAttack/ZombieAttack_{:d}.png'.format(i))for i in range(20)]
+                    self.images = [pygame.image.load('resources/pics/Zombies/NormalZombie/ZombieAttack/ZombieAttack_{:d}.png'.format(i))for i in range(20)]
 
 
 

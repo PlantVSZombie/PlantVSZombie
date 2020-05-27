@@ -19,7 +19,7 @@ class SunState(Enum):
 class Sun(MySprite):
 
     def __init__(self, posx, posy, speed=1):
-        path = "../" + PIC_SUN_PATH
+        path = PIC_SUN_PATH
         self.images = [pygame.image.load(path.format(i)) for i in range(PIC_SUN_PATH_NUM)]
 
         super().__init__(self.images[0])

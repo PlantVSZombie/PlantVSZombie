@@ -8,8 +8,8 @@ PANEL_Y_INTERNAL = 74
 PANEL_X_INTERNAL = 53
 CARD_LIST_NUM = 8
 
-card_name_list = ['../resources/pics/cards/card_sunflower.png', '../resources/pics/cards/card_peashooter.png',
-                  '../resources/pics/cards/card_wallnut.png']
+card_name_list = ['resources/pics/cards/card_sunflower.png', 'resources/pics/cards/card_peashooter.png',
+                  'resources/pics/cards/card_wallnut.png']
 plant_sun_list = [50, 100,50]
 plant_frozen_time_list = [7500, 7500,30000]
 all_card_list = [0, 1,2]
@@ -88,7 +88,7 @@ class Card():
         surface.blit(self.temp_image,self.rect)
 class Menubar():
     def __init__(self,x,y,card_list,sun_value):
-        self.loadFrame('../resources/pics/items/ChooserBackground.png')
+        self.loadFrame('resources/pics/items/ChooserBackground.png')
         self.rect.x=x
         self.rect.y=y
         self.sun_value=sun_value

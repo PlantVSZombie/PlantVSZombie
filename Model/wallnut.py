@@ -4,7 +4,7 @@ from Model.Zone import Zone
 class WallNut(pygame.sprite.Sprite):
     def __init__(self,x,y):
         super(WallNut, self).__init__()
-        self.images = [pygame.image.load('../resources/pics/WallNut/WallNut/WallNut_{:d}.png'.format(i)) for i in range (15)]
+        self.images = [pygame.image.load('resources/pics/WallNut/WallNut/WallNut_{:d}.png'.format(i)) for i in range (15)]
         self.rect = self.images[0].get_rect()
         z=Zone()
         self.rect.left, self.rect.top =z.getGridPos(x,y)

@@ -17,7 +17,7 @@ class CarState(Enum):
 class Car(MySprite):
 
     def __init__(self, posx, posy,row):
-        carimg = pygame.image.load("../" + PIC_CAR_PATH).convert_alpha()
+        carimg = pygame.image.load(PIC_CAR_PATH).convert_alpha()
         self.row = row
         super().__init__(carimg)
         self.position = posx, posy

@@ -6,7 +6,7 @@ from Model.sunfolwer import SunFlower
 screen_size=(1200,600)
 screen=pygame.display.set_mode(screen_size)
 pygame.display.set_caption('郑祺琛的house')
-img_background_path='../resources/pics/items/Background_0.jpg'
+img_background_path='resources/pics/items/Background_0.jpg'
 backGroup=pygame.image.load(img_background_path).convert()
 display_index=0
 block=pygame.time.Clock()
