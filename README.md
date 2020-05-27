@@ -106,4 +106,7 @@ getGridPos草坪坐标转化为像素坐标
 4.menu.checkCardChosen(mouse_click,mouse_pos) #检查拥有卡片是否被点击，若有则返回该卡片
 
 ### Controller类
-控制植物、子弹、僵尸、太阳、小车的出现和死亡，建立起View和Model的桥梁。可以在Test文件夹下运行test_initiate试玩
+控制植物、子弹、僵尸、太阳、小车的出现和死亡，建立起View和Model的桥梁。
+
+### 程序入口
+运行Test-firstmenu试玩
