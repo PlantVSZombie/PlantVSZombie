@@ -2,11 +2,16 @@ import random
 import pygame as pg
 import constants as c
 
-card_name_list = ['../resources/pics/cards/card_sunflower.png', '../resources/pics/cards/card_peashooter.png',
-                  '../resources/pics/cards/card_wallnut.png']
-plant_sun_list = [50, 100,50]
-plant_frozen_time_list = [7500, 7500,30000]
-all_card_list = [0, 1,2]
+PANEL_Y_START = 87
+PANEL_X_START = 22
+PANEL_Y_INTERNAL = 74
+PANEL_X_INTERNAL = 53
+CARD_LIST_NUM = 8
+
+card_name_list = ['../resources/pics/items/card_sunflower.png', '../resources/pics/items/card_peashooter.png']
+plant_sun_list = [50, 100]
+plant_frozen_time_list = [7500, 7500]
+all_card_list = [0, 1]
 
 '''Card'''
 class Card():
@@ -70,7 +75,7 @@ class Card():
             self.befrozen=False #冷冻解除
             if self.sun_cost>sun_value:#太阳不足
                 image=self.root_image.copy()
-                image.set_alpha(140)
+                image.set_alpha(200)
             else:
                 image = self.root_image.copy()
         return image
