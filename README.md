@@ -104,3 +104,6 @@ getGridPos草坪坐标转化为像素坐标
 2.menu.incSunValue(value) #增加太阳值
 3.menu.decSunValue(value) #减少太阳值
 4.menu.checkCardChosen(mouse_click,mouse_pos) #检查拥有卡片是否被点击，若有则返回该卡片
+
+### Controller类
+控制植物、子弹、僵尸、太阳、小车的出现和死亡，建立起View和Model的桥梁。可以在Test文件夹下运行test_initiate试玩

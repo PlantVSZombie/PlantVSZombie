@@ -160,4 +160,3 @@ class Menubar():
         surface.blit(self.image, self.rect)
         for card in self.card_list:
             card.draw(self.image)
-

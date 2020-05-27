@@ -1,4 +1,6 @@
 import pygame
+from sys import exit
+import constants
 from Model.MySprite import MySprite
 from Model.Sun import Sun
 from constants import *
@@ -22,10 +24,10 @@ sun_index = 0
 
 
 class Controller():
-    def __init__(self):
-        self.isgolden = False
+    def __init__(self,screen):
         self.cursor_changed = False  # 当前鼠标是否被替换
         self.plant_index = 0  # 当前替换鼠标的植物索引
+        self.over=False #游戏结束的标志
         self.sun_max = 20
         self.sun_index = 0
         self.zombie_maxtime = 100
@@ -38,15 +40,14 @@ class Controller():
         self.carList = []
         self.sunList = []
         self.has_zombie = [0, 0, 0, 0, 0]
-        self.has_car = [1,1,1,1,1]
         self.display_index = 0  # 当前要显示的图片
-        self.initiate()
+        self.initiate(screen)
 
     '''负责启动整个游戏界面'''
 
-    def initiate(self):
+    def initiate(self,screen):
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen = screen
         pygame.display.set_caption("测试卡片")
         self.map = Map.Map(self.screen)
         self.menu = Menubar.Menubar(10, 10, [0, 1, 2], 200)
@@ -62,48 +63,46 @@ class Controller():
             self.menu.draw(self.screen)
             mos_pos = pygame.mouse.get_pos()
             (mos_click, _, _) = pygame.mouse.get_pressed()
-            item = self.dealCardSelected(mos_pos, mos_click, self.menu)  # 调用Controller类的管理函数
-            if item != None:
-                temp_item = item
-            '''下面的内容是将鼠标替换成对应植物图片，因为放在函数里实现不了，就把它放在主循环当中了'''
-            if self.cursor_changed == True:  # 如果鼠标被标记为已更改
-                mouse_cursor = pygame.image.load(Map.plant_name_list[self.plant_index]).convert_alpha()
-                pygame.mouse.set_visible(False)
-                x, y = mos_pos
-                x -= mouse_cursor.get_width() / 2
-                y -= mouse_cursor.get_height() / 2
-                # 用其他图形代替鼠标
-                self.screen.blit(mouse_cursor, (x, y))
-            elif temp_item != None:
-                pygame.mouse.set_visible(True)
-            if temp_item != None:
-                self.dealSow(mos_click, temp_item)
+            if self.over==False:
+                item = self.dealCardSelected(mos_pos, mos_click, self.menu)  # 调用Controller类的管理函数
+                if item != None:
+                    temp_item = item
+                '''下面的内容是将鼠标替换成对应植物图片，因为放在函数里实现不了，就把它放在主循环当中了'''
+                if self.cursor_changed == True:  # 如果鼠标被标记为已更改
+                    mouse_cursor = pygame.image.load(Map.plant_name_list[self.plant_index]).convert_alpha()
+                    pygame.mouse.set_visible(False)
+                    x, y = mos_pos
+                    x -= mouse_cursor.get_width() / 2
+                    y -= mouse_cursor.get_height() / 2
+                    # 用其他图形代替鼠标
+                    self.screen.blit(mouse_cursor, (x, y))
+                elif temp_item != None:
+                    pygame.mouse.set_visible(True)
+                if temp_item != None:
+                    self.dealSow(mos_click, temp_item)
 
-            self.menu.update(self.menu.sun_value, pygame.time.get_ticks())
-            # 对plantList更新并绘制
-            self.updatePeaShooterList()
-            self.updateSunFlowerList()
-            self.updateWallnutList()
-            # 对zombieList更新并绘制
-            self.updateZombieList()
-            # 对bulletList更新并绘制
-            self.updateBulletList()
-            # 对carList更新并绘制
-            self.updateCarList()
-            # 对sunList更新并绘制
-            self.updateSunList()
-            # 判断僵尸是否进家里
-            for zombie in self.zombieList:
-                if zombie.rect.left<=SCREEN_WIDTH-200 and self.has_car[zombie.getY()]==0:
-                    gameOver()
+                self.menu.update(self.menu.sun_value, pygame.time.get_ticks())
+                # 对plantList更新并绘制
+                self.updatePeaShooterList()
+                self.updateSunFlowerList()
+                self.updateWallnutList()
+                # 对zombieList更新并绘制
+                self.updateZombieList()
+                # 对bulletList更新并绘制
+                self.updateBulletList()
+                # 对carList更新并绘制
+                self.updateCarList()
+                # 对sunList更新并绘制
+                self.updateSunList()
 
 
-            self.menu.draw(self.screen)
+            #self.gameOver()
 
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    exit()
             self.display_index += 1
 
     '''判断卡片是否被选择并且做出相应动作
@@ -169,21 +168,14 @@ class Controller():
 
     def updateSunFlowerList(self):
         for sunflower in self.sunFlowerList:
-            if self.display_index % 18 == 16:
+            if self.display_index % 18 == 17:
                 if sunflower.times == 5:
                     sun = sunflower.produce()  # 要添加向日葵变金色，可在类里
                     self.sunList.append(sun)
                     sunflower.times = 0
-                    self.isgolden = True
-                    self.screen.blit(sunflower.golden[0],sunflower.rect)
                 else:
                     sunflower.times += 1
-                    self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
-            elif self.display_index % 18 == 17 and self.isgolden:
-                self.screen.blit(sunflower.golden[1],sunflower.rect)
-                self.isgolden = False
-            else:
-                self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+            self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
             if sunflower.isAlive() == False:
                 self.sunFlowerList.remove(sunflower)
 
@@ -230,7 +222,6 @@ class Controller():
             car.draw(self.screen)  # 绘图
             if car.isRUN_OUT_SCREEN():  # 小车跑出去了
                 self.carList.remove(car)
-                self.has_car[car.row] = 0
 
     def updateSunList(self):
         if self.sun_index >= self.sun_max:
@@ -251,3 +242,13 @@ class Controller():
                     print("阳光+25")
             else:
                 self.sunList.remove(sun)
+    def gameOver(self):
+        frame = pygame.image.load("../"+constants.GAMELOOSE_PATH).convert_alpha()
+        rect = frame.get_rect()
+        image = pygame.Surface([rect.width, rect.height])
+        image.blit(frame, (0, 0), rect)
+        image = pygame.transform.scale(image, (int(rect.width * 0.78), int(rect.height * 0.78)))  # 缩小尺寸
+        image.set_colorkey((255, 255, 255))#去白边
+        self.screen.blit(image, (300, 0))
+        self.over=True
+
