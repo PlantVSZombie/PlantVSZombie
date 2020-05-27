@@ -6,9 +6,11 @@ from Model.PeaShooter import PeaShooter
 from Model.sunfolwer import SunFlower
 from Model.wallnut import WallNut
 from Model.Car import Car
+from Model.Zombie import Zombie
 from Model import Map
 from Model import Menubar
 import random
+from Model.Zone import Zone
 from pygame.locals import *
 import sys, time
 
@@ -25,7 +27,8 @@ class Controller():
         self.plant_index = 0  # 当前替换鼠标的植物索引
         self.sun_max = 20
         self.sun_index = 0
-
+        self.zombie_maxtime = 100
+        self.zombie_time = 0
         self.peaShooterList = []
         self.sunFlowerList = []
         self.wallnutList = []
@@ -127,7 +130,7 @@ class Controller():
             if block != None and block.getOccupied() == False:
                 block.setOccupied(True)  # 设置成该块被占据，以后就不能再种了
                 centre_pos = block.getCentre()  ##需要改成行列
-                row = int(centre_pos[1] / Map.BLOCK_HEIGHT)
+                row = int(centre_pos[1] / Map.BLOCK_HEIGHT) - 1
                 col = int((centre_pos[0] - Map.LEFTTOP[0]) / Map.BLOCK_WIDTH)
                 col = max(col, 0)
                 self.sowPlant(col, row, self.plant_index)  # 种植物
@@ -155,7 +158,7 @@ class Controller():
             self.screen.blit(plant.images[self.display_index % 13], plant.rect)
 
             if plant.alive == False:
-                self.plantList.remove(plant)
+                self.peaShooterList.remove(plant)
 
     def updateSunFlowerList(self):
         for sunflower in self.sunFlowerList:
@@ -177,13 +180,19 @@ class Controller():
                 self.wallnutList.remove(wallnut)
 
     def updateZombieList(self):
-
+        if self.zombie_time == self.zombie_maxtime:
+            zombie = Zombie(Zone.getIndex(SCREEN_WIDTH, 1)[0])
+            self.zombieList.append(zombie)
+            self.has_zombie[zombie.getY()] += 1
+            self.zombie_time = 0
+        else:
+            self.zombie_time += 1
         for zombie in self.zombieList:
             self.screen.blit(zombie.images[self.display_index % 20], zombie.rect)
             zombie.move()
             zombie.attack(self.peaShooterList)
             zombie.attack(self.wallnutList)
-            zombie.attack(self.sunflowerList)
+            zombie.attack(self.sunFlowerList)
             if zombie.is_alive == False:
                 self.zombieList.remove(zombie)
                 self.has_zombie[zombie.getY()] -= 1
