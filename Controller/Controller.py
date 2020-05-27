@@ -23,6 +23,7 @@ sun_index = 0
 
 class Controller():
     def __init__(self):
+        self.isgolden = False
         self.cursor_changed = False  # 当前鼠标是否被替换
         self.plant_index = 0  # 当前替换鼠标的植物索引
         self.sun_max = 20
@@ -37,6 +38,7 @@ class Controller():
         self.carList = []
         self.sunList = []
         self.has_zombie = [0, 0, 0, 0, 0]
+        self.has_car = [1,1,1,1,1]
         self.display_index = 0  # 当前要显示的图片
         self.initiate()
 
@@ -90,6 +92,11 @@ class Controller():
             self.updateCarList()
             # 对sunList更新并绘制
             self.updateSunList()
+            # 判断僵尸是否进家里
+            for zombie in self.zombieList:
+                if zombie.rect.left<=SCREEN_WIDTH-200 and self.has_car[zombie.getY()]==0:
+                    gameOver()
+
 
             self.menu.draw(self.screen)
 
@@ -162,14 +169,21 @@ class Controller():
 
     def updateSunFlowerList(self):
         for sunflower in self.sunFlowerList:
-            if self.display_index % 18 == 17:
+            if self.display_index % 18 == 16:
                 if sunflower.times == 5:
                     sun = sunflower.produce()  # 要添加向日葵变金色，可在类里
                     self.sunList.append(sun)
                     sunflower.times = 0
+                    self.isgolden = True
+                    self.screen.blit(sunflower.golden[0],sunflower.rect)
                 else:
                     sunflower.times += 1
-            self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+                    self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
+            elif self.display_index % 18 == 17 and self.isgolden:
+                self.screen.blit(sunflower.golden[1],sunflower.rect)
+                self.isgolden = False
+            else:
+                self.screen.blit(sunflower.images[self.display_index % 17], sunflower.rect)
             if sunflower.isAlive() == False:
                 self.sunFlowerList.remove(sunflower)
 
@@ -216,6 +230,7 @@ class Controller():
             car.draw(self.screen)  # 绘图
             if car.isRUN_OUT_SCREEN():  # 小车跑出去了
                 self.carList.remove(car)
+                self.has_car[car.row] = 0
 
     def updateSunList(self):
         if self.sun_index >= self.sun_max:

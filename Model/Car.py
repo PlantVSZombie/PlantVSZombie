@@ -16,9 +16,9 @@ class CarState(Enum):
 
 class Car(MySprite):
 
-    def __init__(self, posx, posy):
+    def __init__(self, posx, posy,row):
         carimg = pygame.image.load("../" + PIC_CAR_PATH).convert_alpha()
-
+        self.row = row
         super().__init__(carimg)
         self.position = posx, posy
 
@@ -28,7 +28,7 @@ class Car(MySprite):
     @classmethod
     def CreateCarAtRow(cls, y):
         z = Zone()
-        return Car(z.getGridPos(0, y)[0]-60, z.getGridPos(0, y)[1] )
+        return Car(z.getGridPos(0, y)[0]-60, z.getGridPos(0, y)[1],y)
 
     def isRUN_OUT_SCREEN(self):
         return self._state == CarState.RUN_OUT_SCREEN
