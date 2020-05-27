@@ -109,4 +109,11 @@ getGridPos草坪坐标转化为像素坐标
 控制植物、子弹、僵尸、太阳、小车的出现和死亡，建立起View和Model的桥梁。
 
 ### 程序入口
-运行Test-firstmenu试玩
+运行主目录下的main试玩
+
+### 小组实验报告分工
+刘宗游：Sun+Car+部分Controller+程序功能概述+用例图
+葛伟平：Menubar等界面+部分Contoller+类图
+郑祺琛：Zombie+PeaShooter+SunFlower+Wallnut+Bullet+程序结果截图+结论
+
+
