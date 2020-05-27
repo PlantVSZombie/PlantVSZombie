@@ -1,6 +1,7 @@
 PIC_CAR_PATH="resources/pics/items/car.png"
 SunFlower_PATH="resources/pics/plants/SunFlower_0.png"
 PeaShooter_PATH="resources/pics/plants/Peashooter_0.png"
+WallNut_PATH='resources/pics/plants/WallNut_0.png'
 BulletNormal_PATH="resources/pics/bullets/PeaNormal_0.png"
 BulletExplode_PATH="resources/pics/bullets/PeaNormalExplode_0.png"
 PIC_SUN_PATH = "resources/pics/items/Sun/Sun_{:d}.png"
@@ -8,6 +9,7 @@ PIC_SUN_PATH_NUM = 21
 PIC_FIRSTMENU_BACKGROUND_PATH = "resources/pics/FirstMenu/MainMenu.png"
 PIC_FIRSTMENU_ADVENBUTTON0_PATH = "resources/pics/FirstMenu/Adventure_0.png"
 PIC_FIRSTMENU_ADVENBUTTON1_PATH = "resources/pics/FirstMenu/Adventure_1.png"
+GAMELOOSE_PATH='resources/pics/items/GameLoose.png'
 '''颜色'''
 WHITE        = (255, 255, 255)
 NAVYBLUE     = ( 60,  60, 100)

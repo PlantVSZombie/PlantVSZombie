@@ -5,8 +5,8 @@ BLOCK_WIDTH=80
 BLOCK_HEIGHT=90
 LEFTTOP=(250,90)
 
-plant_name_list = ['../resources/pics/plants/SunFlower_0.png', '../resources/pics/plants/Peashooter_0.png',
-                   '../resources/pics/plants/WallNut_0.png']
+plant_name_list = ["../"+c.SunFlower_PATH, '../'+c.PeaShooter_PATH,
+                   "../"+c.WallNut_PATH]
 
 class GrassBlock():
     '''用草坪框左上角坐标'''
