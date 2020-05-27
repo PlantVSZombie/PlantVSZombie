@@ -3,6 +3,7 @@ from sys import exit
 import constants
 from Model.MySprite import MySprite
 from Model.Sun import Sun
+from View.FirstMenu import *
 from constants import *
 from Model.PeaShooter import PeaShooter
 from Model.sunfolwer import SunFlower
@@ -248,7 +249,6 @@ class Controller():
                 sun.draw(self.screen)
                 if sun.isClicked(mouse_click, (x, y)):
                     self.menu.incSunValue(25)
-                    print("阳光+25")
             else:
                 self.sunList.remove(sun)
 
@@ -261,3 +261,5 @@ class Controller():
         image.set_colorkey((255, 255, 255))  # 去白边
         self.screen.blit(image, (300, 0))
         self.over = True
+
+
