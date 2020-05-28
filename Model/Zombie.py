@@ -11,7 +11,7 @@ class Zombie(pygame.sprite.Sprite):
         self.z=Zone()
         self.rect.left=self.z.getGridPos(x,random.randint(0,1))[0]
         self.rect.top =self.z.getGridPos(x,random.randint(0,4))[1]-60
-        self.speed=4
+        self.speed=2
         self.hp=100
         self.is_alive=True
         self.is_attack=False

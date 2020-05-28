@@ -14,7 +14,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.left=plant.rect.left+35
         self.rect.top=plant.rect.top
         self.z=Zone()
-        self.power = 20
+        self.power = 10
         self.state = "normal"
 
 

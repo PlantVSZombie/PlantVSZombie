@@ -29,7 +29,7 @@ class Controller():
         self.over = False  # 游戏结束的标志
         self.sun_max = 80
         self.sun_index = 0
-        self.zombie_maxtime = 100
+        self.zombie_maxtime = 120
         self.zombie_time = 0
         self.peaShooterList = []
         self.sunFlowerList = []
@@ -50,7 +50,7 @@ class Controller():
         self.screen = screen
         pygame.display.set_caption("测试卡片")
         self.map = Map.Map(self.screen)
-        self.menu = Menubar.Menubar(10, 10, [0, 1, 2], 200)
+        self.menu = Menubar.Menubar(10, 10, [0, 1, 2], 50)
         self.menu.draw(self.screen)
         temp_item = None
         block = pygame.time.Clock()
