@@ -20,8 +20,6 @@ import sys, time
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
 
-sun_max = 10
-sun_index = 0
 
 
 class Controller():
@@ -29,7 +27,7 @@ class Controller():
         self.cursor_changed = False  # 当前鼠标是否被替换
         self.plant_index = 0  # 当前替换鼠标的植物索引
         self.over = False  # 游戏结束的标志
-        self.sun_max = 20
+        self.sun_max = 80
         self.sun_index = 0
         self.zombie_maxtime = 100
         self.zombie_time = 0
@@ -200,6 +198,7 @@ class Controller():
             self.zombieList.append(zombie)
             self.has_zombie[zombie.getY()] += 1
             self.zombie_time = 0
+            self.zombie_maxtime -= 1
         else:
             self.zombie_time += 1
         for zombie in self.zombieList:
